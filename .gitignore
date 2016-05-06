@@ -1,0 +1,10 @@
+*.sdf
+*.sln
+*.suo
+*.user
+*.filters
+*.vcxproj
+/client/Debug
+/server/Debug
+/server/WinsockPractice_server/Debug
+/client/WinsockPractice/Debug
