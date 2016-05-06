@@ -39,7 +39,7 @@ int __cdecl main()
 	// Initialize Winsock
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (iResult != 0) {
-		printf("WSAStartup failed with error: %d\n", iResult);
+		cout << "WSAStartup failed with error: " << iResult << endl;
 		Pause();
 		return 1;
 	}
@@ -55,7 +55,7 @@ int __cdecl main()
 	// Resolve the server address and port
 	iResult = getaddrinfo(hostIP.c_str(), DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
-		printf("getaddrinfo failed with error: %d\n", iResult);
+		cout << "getaddrinfo failed with error: %d\n" << iResult << endl;
 		WSACleanup();
 		Pause();
 		return 1;
@@ -68,7 +68,7 @@ int __cdecl main()
 		ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype,
 			ptr->ai_protocol);
 		if (ConnectSocket == INVALID_SOCKET) {
-			printf("socket failed with error: %ld\n", WSAGetLastError());
+			cout << "socket failed with error: " << WSAGetLastError() << endl;
 			WSACleanup();
 			Pause();
 			return 1;
@@ -88,7 +88,7 @@ int __cdecl main()
 	freeaddrinfo(result);
 
 	if (ConnectSocket == INVALID_SOCKET) {
-		printf("Unable to connect to server!\n");
+		cout << "Unable to connect to server!" << endl;
 		WSACleanup();
 		Pause();
 		return 1;
@@ -97,7 +97,7 @@ int __cdecl main()
 	// Send an initial buffer
 	iResult = send(ConnectSocket, sendbuf, (int)strlen(sendbuf), 0);
 	if (iResult == SOCKET_ERROR) {
-		printf("send failed with error: %d\n", WSAGetLastError());
+		cout << "send failed with error: " << WSAGetLastError() << endl;
 		closesocket(ConnectSocket);
 		WSACleanup();
 		Pause();
@@ -109,7 +109,7 @@ int __cdecl main()
 	// shutdown the connection since no more data will be sent
 	iResult = shutdown(ConnectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
-		printf("shutdown failed with error: %d\n", WSAGetLastError());
+		cout << "shutdown failed with error: " << WSAGetLastError() << endl;
 		closesocket(ConnectSocket);
 		WSACleanup();
 		Pause();
@@ -121,11 +121,11 @@ int __cdecl main()
 
 		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
 		if (iResult > 0)
-			printf("Bytes received: %d\n", iResult);
+			cout << "Bytes receivd: " << iResult << endl;
 		else if (iResult == 0)
-			printf("Connection closed\n");
+			cout << "Connection closed" << endl;
 		else
-			printf("recv failed with error: %d\n", WSAGetLastError());
+			cout << "recv failed with error: " << WSAGetLastError() << endl;
 
 	} while (iResult > 0);
 
