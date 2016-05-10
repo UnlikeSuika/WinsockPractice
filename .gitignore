@@ -4,6 +4,7 @@
 *.user
 *.filters
 *.vcxproj
+*.opensdf
 /client/Debug
 /server/Debug
 /server/WinsockPractice_server/Debug
