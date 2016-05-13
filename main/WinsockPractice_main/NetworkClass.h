@@ -12,6 +12,8 @@
 #include <string>
 
 #pragma comment (lib, "Ws2_32.lib")
+#pragma comment (lib, "Mswsock.lib")
+#pragma comment (lib, "AdvApi32.lib")
 
 #ifndef DEFAULT_BUFLEN
 #define DEFAULT_BUFLEN 512
@@ -32,6 +34,8 @@ public:
 
 	virtual bool Initialize();
 	virtual bool Shutdown();
+	bool Send(SOCKET sock, char* msg);
+	bool Receive(SOCKET sock);
 
 protected:
 	string ip, port;

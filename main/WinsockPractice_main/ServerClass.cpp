@@ -1,5 +1,6 @@
 #include "ServerClass.h"
 
+//Initializes ServerClass object
 bool ServerClass::Initialize(){
 
 	if (!InitWinsock()){
@@ -30,6 +31,7 @@ bool ServerClass::Initialize(){
 
 //Listen for incoming SOCKET
 bool ServerClass::ListenForSocket(){
+	cout << "Please make sure that your IP and port is forwarded\nbefore you use this functionality.\n\n";
 	cout << "Listening for socket..." << endl;
 	if ((listen(ListenSocket, SOMAXCONN)) == SOCKET_ERROR){
 		cout << "listen failed with error: " << WSAGetLastError() << endl;
@@ -67,31 +69,12 @@ bool ServerClass::Shutdown(){
 
 //Send message to client
 bool ServerClass::Send(char* msg){
-	int iSendResult = send(ClientSocket, msg, strlen(msg), 0);
-	if (iSendResult == SOCKET_ERROR){
-		cout << "send failed with error: " << WSAGetLastError() << endl;
-		return false;
-	}
-	return true;
+	return NetworkClass::Send(ClientSocket, msg);
 }
 
 //Receive message from client, returns true if message is received and client is still connected
 bool ServerClass::Receive(){
-	char msg[DEFAULT_BUFLEN];
-	int iResult = recv(ClientSocket, msg, buflen, 0);
-	if (iResult > 0){
-		cout << "Bytes received: " << iResult << endl;
-		cout << "Message received: " << msg << endl;
-		return true;
-	}
-	else if (iResult == 0){
-		cout << "Connection closing..." << endl;
-		return false;
-	}
-	else{
-		cout << "recv failed with error: " << WSAGetLastError() << endl;
-		return false;
-	}
+	return NetworkClass::Receive(ClientSocket);
 }
 
 //Create a SOCKET for connecting to server

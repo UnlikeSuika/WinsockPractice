@@ -15,14 +15,44 @@ NetworkClass::NetworkClass(const NetworkClass& other){}
 //Do not use this destructor
 NetworkClass::~NetworkClass(){}
 
-//Initializes NetworkClass object, returns true when successfully initialized
+//Initializes NetworkClass object, virtual
 bool NetworkClass::Initialize(){
 	return true;
 }
 
-//Shuts down NetworkClass object, returns true when successfully shut down
+//Shuts down NetworkClass object, virtual
 bool NetworkClass::Shutdown(){
 	return true;
+}
+
+//Sends message to the given socket
+bool NetworkClass::Send(SOCKET sock, char* msg){
+	int iSendResult = send(sock, msg, strlen(msg), 0);
+	if (iSendResult == SOCKET_ERROR){
+		cout << "send failed with error: " << WSAGetLastError() << endl;
+		return false;
+	}
+	cout << "Bytes sent: " << iSendResult << endl;
+	return true;
+}
+
+//Receives message from the given socket
+bool NetworkClass::Receive(SOCKET sock){
+	char msg[DEFAULT_BUFLEN];
+	int iResult = recv(sock, msg, buflen, 0);
+	if (iResult > 0){
+		cout << "Bytes received: " << iResult << endl;
+		cout << "Message received: " << msg << endl;
+		return true;
+	}
+	else if (iResult == 0){
+		cout << "Connection closing..." << endl;
+		return false;
+	}
+	else{
+		cout << "recv failed with error: " << WSAGetLastError() << endl;
+		return false;
+	}
 }
 
 //Initialize Winsock
