@@ -5,9 +5,7 @@
 *.filters
 *.vcxproj
 *.opensdf
-/client/Debug
-/server/Debug
-/server/WinsockPractice_server/Debug
-/client/WinsockPractice/Debug
+/client
+/server
 /main/Debug
 /main/WinsockPractice_main/Debug
